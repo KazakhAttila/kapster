@@ -6,6 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"strconv"
+	"strings"
 	"time"
 
 	"gorm.io/driver/postgres"
@@ -14,6 +16,7 @@ import (
 )
 
 var DB *gorm.DB
+
 var err error
 
 /*
@@ -77,6 +80,36 @@ type Dataa struct {
 	//The_rest map[string]interface{}
 
 }
+
+type ZHK struct {
+	Id               int     `json:"id"`
+	Type1            string  `json:"_type"`
+	Uid              int     `json:"uid"`
+	Title            string  `json:"title"`
+	Slug             string  `json:"slug"`
+	Short            string  `json:"short"`
+	Category_id      int     `json:"category_id"`
+	Subcategory_id   int     `json:"subcategory_id"`
+	Status           string  `json:"status"`
+	Country_id       int     `json:"country_id"`
+	City_id          int     `json:"city_id"`
+	Published_at     string  `json:"published_at"`
+	Edited_at        string  `json:"edited_at"`
+	User_id          int     `json:"user_id"`
+	Build_status     string  `json:"build_status"`
+	Deadline_year    int     `json:"deadline_year"`
+	Deadline_quarter int     `json:"deadline_quarter"`
+	Latitude         float64 `json:"latitude"`
+	Longitude        float64 `json:"longitude"`
+	Floors_min       int     `json:"floors_min"`
+	Floors_max       int     `json:"floors_max"`
+	Ceiling_min      int     `json:"ceiling_min"`
+	Ceiling_max      int     `json:"ceiling_max"`
+	Rooms_min        int     `json:"rooms_min"`
+	Rooms_max        int     `json:"rooms_max"`
+	Has_free_layout  bool    `json:"has_free_layout"`
+}
+
 type Links struct {
 	First string `json:"first"`
 	Next  string `json:"next"`
@@ -109,6 +142,14 @@ func initialMigration() {
 	DB.AutoMigrate(&Dataa{})
 
 }
+func initialMigration2() {
+	dsn := "host=localhost user=postgres password=123 dbname=kapster port=5432 sslmode=disable"
+	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	if err != nil {
+		fmt.Println("kotakbas")
+	}
+	DB.AutoMigrate(&ZHK{})
+}
 
 // func initialMigration2() {
 // 	dsn := "host=localhost user=postgres password=123 dbname=kapster port=5432 sslmode=disable"
@@ -119,7 +160,7 @@ func initialMigration() {
 // 	DB.AutoMigrate(&type2{})
 
 // }
-func (c *Client) FetchEverything1(city string) (*Type1, error) {
+func (c *Client) FetchEverything1(city string) (*[]Dataa, error) {
 	endpoint := fmt.Sprintf("https://kapster.kz/api/products?city_id=%s&per_page=100", city)
 	resp, err := c.http.Get(endpoint)
 	if err != nil {
@@ -151,38 +192,129 @@ func (c *Client) FetchEverything1(city string) (*Type1, error) {
 	fmt.Println(dev)
 
 	DB.Create(datt)
-	return &dev, err
+	return &datt, err
 }
 
 // return slugs available
-func handle_first() {
+func handle_first() *[][]Dataa {
 	initialMigration()
 
 	c := &http.Client{Timeout: 10 * time.Second}
 	cc := NewClient(c)
-	qq, error := cc.FetchEverything1("1")
-	if error != nil && qq == nil {
-		fmt.Println(error.Error())
+	var dat [][]Dataa
+	for i := 1; i < 19; i++ {
+		qq, error := cc.FetchEverything1(strconv.Itoa(i))
+		dat = append(dat, *qq)
+		if error != nil && qq == nil {
+			fmt.Println(error.Error())
+		}
+
 	}
+	return &dat
 	// var vals[] interface{}
 }
 
-func handle_second() {
-	//initialMigration()
+// use the data structure provided from the first or what?
+// zapros v db!!!
+//
+//
+//
 
-	// c := &http.Client{Timeout: 10 * time.Second}
-	// cc := NewClient(c)
-	// qq, error := cc.FetchEverything1("1")
-	// if error!=nil{
-	// 	fmt.Printf(error.Error())
-	// }
-	// for dev := range qq{
+/*
+goals:
+	1. second make it possible -> any way -> use the database, use any way
+	2. in the second -> make the new data structure and new request same shit...
+	3. make the map of agreements and count them
+	4. make the map of objects here and all the other layers suka...
 
-	// }
+*/
+
+func translate(s []string) {
+	var spoken []string
+	for i := 0; i < len(s); i++ {
+		q := s[i]
+		count := 0
+		toadd := ""
+		for j := 0; j < len(q); j++ {
+			if q[j] == '"' && count < 2 {
+				count += 1
+			}
+			if count == 1 {
+				toadd = toadd + string(q[j])
+			} else if count == 2 {
+				spoken = append(spoken, toadd)
+			}
+
+		}
+	}
+	for i := range spoken {
+		s := spoken[i]
+		fmt.Println(strings.ToUpper(string(s[0]))+s[1:]+" "+"string "+"`json:\"%s\" ", s)
+	}
+
 }
+
+// automatize the shit!!
+// then print koroche!
+
+/*
+ */
+type Slug struct {
+	Slug string
+}
+
+func handle_second() {
+
+	initialMigration2()
+	var dataa []Slug
+
+	// my speech -> everything is banal as fuck, initial formula was torn apart and wasn't still achieved. look at this shit. everyone is weak.
+	// na urovne rechi and macro -> reaching this(with additional automata theories and shit),
+	// just to do some remigrations and adding some additional funcs -> macro and useful, even pictures and so on-> making an API!!!
+	// first thing -> extract out of DB -> giving too much informaiton...
+
+	DB.Table("dataas").Select("slug").Find(&dataa)
+	fmt.Println()
+	fmt.Println(dataa)
+
+	c := &http.Client{Timeout: 10 * time.Second}
+	cc := NewClient(c)
+	for ss := range dataa {
+		Zhk := ZHK{}
+		endpoint := fmt.Sprintf("https://kapster.kz/api/products/%s", dataa[ss])
+		resp, err := cc.http.Get(endpoint)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		defer resp.Body.Close()
+
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println(err)
+		}
+
+		if resp.StatusCode != http.StatusOK {
+			fmt.Println(resp.StatusCode)
+		}
+
+		err = json.Unmarshal(body, &Zhk)
+		if err != nil {
+			panic(err)
+		}
+		DB.Create(Zhk)
+	}
+}
+
+// }
 
 func main() {
 
-	handle_first()
-
+	// dat := handle_first()
+	// for i := range (*dat){
+	// 		qq := *dat
+	// 		x:=  qq[i]
+	// 		for()
+	// }
+	handle_second()
 }
