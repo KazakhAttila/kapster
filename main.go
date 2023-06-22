@@ -16,7 +16,6 @@ import (
 var DB *gorm.DB
 var err error
 
-
 /*
 
 id  uid  title  slug  category_id  subcategory_id  city_id  deadline_year
@@ -42,9 +41,6 @@ id  uid  title  slug  category_id  subcategory_id  city_id  deadline_year
 				 purchase_methods/4  images/14  images/15  images/16
 
 */
-
-
-
 
 type Type1 struct {
 	Dat []Dataa `json:"data"`
@@ -110,7 +106,7 @@ func initialMigration() {
 	if err != nil {
 		fmt.Println("kotakbas")
 	}
-	DB.AutoMigrate(&Type1{})
+	DB.AutoMigrate(&Dataa{})
 
 }
 
@@ -146,13 +142,15 @@ func (c *Client) FetchEverything1(city string) (*Type1, error) {
 	// dev.Meta = []Meta{}
 
 	err = json.Unmarshal(body, &dev)
+	// Надо сломать эту хуйню
+	var datt []Dataa = dev.Dat
 
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(dev)
 
-	DB.Create(dev)
+	DB.Create(datt)
 	return &dev, err
 }
 
@@ -169,10 +167,8 @@ func handle_first() {
 	// var vals[] interface{}
 }
 
-
 func handle_second() {
 	//initialMigration()
-
 
 	// c := &http.Client{Timeout: 10 * time.Second}
 	// cc := NewClient(c)
@@ -184,8 +180,6 @@ func handle_second() {
 
 	// }
 }
-
-
 
 func main() {
 
