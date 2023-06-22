@@ -76,7 +76,6 @@ type Dataa struct {
 	Me_bookmarked        bool    `json:"me_bookmarked"`
 	Image                string  `json:"image"`
 	Published_at         string  `json:"published_at"`
-
 	//The_rest map[string]interface{}
 
 }
@@ -84,7 +83,7 @@ type Dataa struct {
 type ZHK struct {
 	Id               int     `json:"id"`
 	Type1            string  `json:"_type"`
-	Uid              int     `json:"uid"`
+	Uid              string  `json:"uid"`
 	Title            string  `json:"title"`
 	Slug             string  `json:"slug"`
 	Short            string  `json:"short"`
@@ -97,14 +96,14 @@ type ZHK struct {
 	Edited_at        string  `json:"edited_at"`
 	User_id          int     `json:"user_id"`
 	Build_status     string  `json:"build_status"`
-	Deadline_year    int     `json:"deadline_year"`
+	Deadline_year    string  `json:"deadline_year"`
 	Deadline_quarter int     `json:"deadline_quarter"`
 	Latitude         float64 `json:"latitude"`
 	Longitude        float64 `json:"longitude"`
 	Floors_min       int     `json:"floors_min"`
 	Floors_max       int     `json:"floors_max"`
-	Ceiling_min      int     `json:"ceiling_min"`
-	Ceiling_max      int     `json:"ceiling_max"`
+	Ceiling_min      float64 `json:"ceiling_min"`
+	Ceiling_max      float64 `json:"ceiling_max"`
 	Rooms_min        int     `json:"rooms_min"`
 	Rooms_max        int     `json:"rooms_max"`
 	Has_free_layout  bool    `json:"has_free_layout"`
@@ -196,21 +195,18 @@ func (c *Client) FetchEverything1(city string) (*[]Dataa, error) {
 }
 
 // return slugs available
-func handle_first() *[][]Dataa {
+func handle_first() {
 	initialMigration()
 
 	c := &http.Client{Timeout: 10 * time.Second}
 	cc := NewClient(c)
-	var dat [][]Dataa
 	for i := 1; i < 19; i++ {
 		qq, error := cc.FetchEverything1(strconv.Itoa(i))
-		dat = append(dat, *qq)
 		if error != nil && qq == nil {
 			fmt.Println(error.Error())
 		}
 
 	}
-	return &dat
 	// var vals[] interface{}
 }
 
@@ -279,9 +275,10 @@ func handle_second() {
 
 	c := &http.Client{Timeout: 10 * time.Second}
 	cc := NewClient(c)
+
 	for ss := range dataa {
 		Zhk := ZHK{}
-		endpoint := fmt.Sprintf("https://kapster.kz/api/products/%s", dataa[ss])
+		endpoint := fmt.Sprintf("https://kapster.kz/api/products/%s", dataa[ss].Slug)
 		resp, err := cc.http.Get(endpoint)
 		if err != nil {
 			fmt.Println(err)
@@ -302,14 +299,15 @@ func handle_second() {
 		if err != nil {
 			panic(err)
 		}
-		DB.Create(Zhk)
+		DB.Create(&Zhk)
+
 	}
 }
 
 // }
 
 func main() {
-
+	//handle_first()
 	// dat := handle_first()
 	// for i := range (*dat){
 	// 		qq := *dat
