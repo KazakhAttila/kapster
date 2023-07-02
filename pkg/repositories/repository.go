@@ -4,25 +4,25 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type Residental interface {
-	refresh()
-	get()
+type Resident interface {
+	Refresh()
+	Get()
 }
 
-type ResidentalSlug interface {
-	refresh()
-	get()
+type ResidentSlug interface {
+	Refresh()
+	Get()
 }
 
 type Repository struct {
-	Residental
-	ResidentalSlug
+	Resident
+	ResidentSlug
 }
 
 func newRepository(db *sqlx.DB) *Repository { 
 
 		return &Repository{ 
-				Residental: NewResidental(db),
-				ResidentalSlug: NewResidentalSlug(db),
+				Resident: NewResidental(db),
+				ResidentSlug: NewResidentalSlug(db),
 		}
 }

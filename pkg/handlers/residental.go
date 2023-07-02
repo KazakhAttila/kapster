@@ -8,6 +8,8 @@ import (
 
 func (h *Handler) refreshList(c *gin.Context) {
 
+		
+		c.JSON() 	
 }
 
 func (h *Handler) retrieveInfo(c *gin.Context) {

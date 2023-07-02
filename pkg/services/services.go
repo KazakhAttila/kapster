@@ -1,6 +1,9 @@
 package services
 
 
+import( 
+
+)
 // netu i nevozmozhno nahooi bez horoshego servica pryamo was reshenia delat'? 
 /*
 reps: 
@@ -23,18 +26,26 @@ memory spaces and places everyone is taking.
 // business logic -> new interfaces... 
 
 type Resident interface {
-		Get() 
-		Refresh()
+		Get() Resident
+		Refresh() 
 }
 
 
 type ResidentSlug interface {
-	 	Get() 
-		Refresh()
+	 	Get(slug string) ResidentSlug
+		Refresh(slug string) 
 }
 
 
 type Service struct {
-		Res	Resident
-		ResSlug ResidentSlug
+		Resident
+		ResidentSlug
+}
+
+func newService(repos *repositories.Repository) *Service{ 
+			return &Service{ 	
+					Res: newResidentalService(repos),
+					ResSlug: newResidentalSlugService(repos),
+			}
+
 }

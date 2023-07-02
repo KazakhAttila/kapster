@@ -2,7 +2,7 @@ package repositories
 
 import(
 	"github.com/jmoiron/sqlx"
-
+	"fmt"
 
 ) 
 type  ResidentSlug struct{ 
@@ -14,15 +14,19 @@ func NewResidentalSlug(db *sqlx.DB) *ResidentSlug{
 				db:db}
 
 }
-func (r *ResidentSlug) getSlug (slug string) (kapster.residental_individual, error){ 
+func (r *ResidentSlug) getSlug (slug string) (kapster.ResidentSlug, error){ 
 	db := r.db	
-	query:= "SELECT * FROM table"
-	db.Exec(query)
+	query:= fmt.Sprintf("SELECT * FROM zhks WHERE slug = %s", slug) 
+	result, err:=db.Get(query)
+	if err!=nil{ 
+			return nil, err
+	}
+	return result, err
 }
 
-func refreshSlug(slug string) (kapster.residental_individual, slug string){ 
+func refreshSlug(slug string) (kapster.ResidentSlug, slug string){ 
 		db := r.db
-		query:= ""	
+		query:= ""		
 		db.Exec()
 }
 
