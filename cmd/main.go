@@ -21,8 +21,8 @@ func main() {
 		// as well as ROB 3 medium messenger apps + make your version in the end...
 		//
 				1) main get and rob it to the fullest
-				2) services + handlers rob to the fullest
-				3) rob the riches from the repos in the end
+				2) services + handlers rob to the fullest 
+				3) rob the riches from the repos in the end rob everything nahooi! + write git mistake + gopath
 				4) rob docker do talova
 				5) rob everything, lead to the docker
 				6) then to solve problems: refresh, my database specifics, my getters, Channels and my problems...

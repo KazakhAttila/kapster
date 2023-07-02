@@ -1,1 +1,1 @@
-# kapster
+Application to fetch data from the Kapster.kz database
