@@ -1,5 +1,9 @@
 package main
 
+/*
+
+package main
+
 import (
 	"net/http"
 
@@ -19,38 +23,10 @@ var DB *gorm.DB
 
 var err error
 
-/*
 
-id  uid  title  slug  category_id  subcategory_id  city_id  deadline_year
- deadline_quarter  location  floors_min  floors_max  ceiling_min  ceiling_max
-  rooms_min  rooms_max  has_free_layout  purchase_methods/0  has_hgf  housing_class
-   price_per_square_min  price_min  kapster_verified  status  me_bookmarked  image
-   published_at  user_id  user/id  user/name  user/username  user/is_company  user/profile_verified
-   user/avatar  images/0  images/1  images/2  images/3  images/4  images/5  plans/0/id  plans/0/rooms
-     plans/0/area  plans/0/price  plans/1/id  plans/1/rooms  plans/1/area  plans/1/price  plans/2/id
-	 plans/2/rooms  plans/2/area  plans/2/price  plans/3/id  plans/3/rooms  plans/3/area  plans/3/price
-	  plans/4/id  plans/4/rooms  plans/4/area  plans/4/price  plans/5/id  plans/5/rooms  plans/5/area
-	  plans/5/price  plans/6/id  plans/6/rooms  plans/6/area  plans/6/price  purchase_methods/1  plans/7/id
-	  plans/7/rooms  plans/7/area  plans/7/price  purchase_methods/2  purchase_methods/3  images/6  plans/8/id
-	    plans/8/rooms  plans/8/area  plans/8/price  plans/9/id  plans/9/rooms  plans/9/area  plans/9/price  plans/10/id
-		 plans/10/rooms  plans/10/area  plans/10/price  plans/11/id  plans/11/rooms  plans/11/area  plans/11/price  plans/12/id
-		  plans/12/rooms  plans/12/area  plans/12/price  plans/13/id  plans/13/rooms  plans/13/area  plans/13/price
-		   plans/14/id  plans/14/rooms  plans/14/area  plans/14/price  plans/15/id  plans/15/rooms  plans/15/area
-		    plans/15/price  plans/16/id  plans/16/rooms  plans/16/area  plans/16/price  plans/17/id  plans/17/rooms
-			 plans/17/area  plans/17/price  plans/18/id  plans/18/rooms  plans/18/area  plans/18/price  plans/19/id
-			  plans/19/rooms  plans/19/area  plans/19/price  plans/20/id  plans/20/rooms  plans/20/area  plans/20/price
-			  plans/21/id  plans/21/rooms  plans/21/area  plans/21/price  plans/22/id  plans/22/rooms  plans/22/area
-			    plans/22/price  images/7  images/8  images/9  images/10  images/11  images/12  images/13
-				 purchase_methods/4  images/14  images/15  images/16
 
-*/
 
-type Type1 struct {
-	Dat []Dataa `json:"data"`
-	// Link []Links `json:"links"`
 
-	// Meta []Meta `json:"meta"`
-}
 type Dataa struct {
 	ID                   int     `json:"id"`
 	Uid                  string  `json:"uid"`
@@ -79,7 +55,9 @@ type Dataa struct {
 	//The_rest map[string]interface{}
 
 }
-
+type Type1 struct{ 
+	Dat[] Dataa
+}
 type ZHK struct {
 	Id               int     `json:"id"`
 	Type1            string  `json:"_type"`
@@ -176,11 +154,10 @@ func (c *Client) FetchEverything1(city string) (*[]Dataa, error) {
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf(string(body))
 	}
-	var dev Type1
 	// dev.Dat = []Dataa{}
 	// dev.Link = []Links{}
 	// dev.Meta = []Meta{}
-
+	var dev Type1
 	err = json.Unmarshal(body, &dev)
 	// Надо сломать эту хуйню
 	var datt []Dataa = dev.Dat
@@ -188,7 +165,7 @@ func (c *Client) FetchEverything1(city string) (*[]Dataa, error) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(dev)
+	fmt.Println(dev)	
 
 	DB.Create(datt)
 	return &datt, err
@@ -216,14 +193,7 @@ func handle_first() {
 //
 //
 
-/*
-goals:
-	1. second make it possible -> any way -> use the database, use any way
-	2. in the second -> make the new data structure and new request same shit...
-	3. make the map of agreements and count them
-	4. make the map of objects here and all the other layers suka...
 
-*/
 
 func translate(s []string) {
 	var spoken []string
@@ -253,8 +223,7 @@ func translate(s []string) {
 // automatize the shit!!
 // then print koroche!
 
-/*
- */
+
 type Slug struct {
 	Slug string
 }
@@ -273,7 +242,7 @@ func handle_second() {
 	fmt.Println()
 	fmt.Println(dataa)
 
-	c := &http.Client{Timeout: 10 * time.Second}
+	c := &http.Client{Timeout: 1000 * time.Second}
 	cc := NewClient(c)
 
 	for ss := range dataa {
@@ -316,3 +285,30 @@ func main() {
 	// }
 	handle_second()
 }
+*/
+
+/*
+
+id  uid  title  slug  category_id  subcategory_id  city_id  deadline_year
+ deadline_quarter  location  floors_min  floors_max  ceiling_min  ceiling_max
+  rooms_min  rooms_max  has_free_layout  purchase_methods/0  has_hgf  housing_class
+   price_per_square_min  price_min  kapster_verified  status  me_bookmarked  image
+   published_at  user_id  user/id  user/name  user/username  user/is_company  user/profile_verified
+   user/avatar  images/0  images/1  images/2  images/3  images/4  images/5  plans/0/id  plans/0/rooms
+     plans/0/area  plans/0/price  plans/1/id  plans/1/rooms  plans/1/area  plans/1/price  plans/2/id
+	 plans/2/rooms  plans/2/area  plans/2/price  plans/3/id  plans/3/rooms  plans/3/area  plans/3/price
+	  plans/4/id  plans/4/rooms  plans/4/area  plans/4/price  plans/5/id  plans/5/rooms  plans/5/area
+	  plans/5/price  plans/6/id  plans/6/rooms  plans/6/area  plans/6/price  purchase_methods/1  plans/7/id
+	  plans/7/rooms  plans/7/area  plans/7/price  purchase_methods/2  purchase_methods/3  images/6  plans/8/id
+	    plans/8/rooms  plans/8/area  plans/8/price  plans/9/id  plans/9/rooms  plans/9/area  plans/9/price  plans/10/id
+		 plans/10/rooms  plans/10/area  plans/10/price  plans/11/id  plans/11/rooms  plans/11/area  plans/11/price  plans/12/id
+		  plans/12/rooms  plans/12/area  plans/12/price  plans/13/id  plans/13/rooms  plans/13/area  plans/13/price
+		   plans/14/id  plans/14/rooms  plans/14/area  plans/14/price  plans/15/id  plans/15/rooms  plans/15/area
+		    plans/15/price  plans/16/id  plans/16/rooms  plans/16/area  plans/16/price  plans/17/id  plans/17/rooms
+			 plans/17/area  plans/17/price  plans/18/id  plans/18/rooms  plans/18/area  plans/18/price  plans/19/id
+			  plans/19/rooms  plans/19/area  plans/19/price  plans/20/id  plans/20/rooms  plans/20/area  plans/20/price
+			  plans/21/id  plans/21/rooms  plans/21/area  plans/21/price  plans/22/id  plans/22/rooms  plans/22/area
+			    plans/22/price  images/7  images/8  images/9  images/10  images/11  images/12  images/13
+				 purchase_methods/4  images/14  images/15  images/16
+
+*/
