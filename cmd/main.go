@@ -7,7 +7,9 @@ import (
 	"syscall"
 
 	"github.com/joho/godotenv"
-	"github.com/kazakhattila/kapster"
+	"github.com/kazakhattila/kapster/pkg/handlers"
+	"github.com/kazakhattila/kapster/pkg/repositories"
+	"github.com/kazakhattila/kapster/pkg/services"
 	_ "github.com/lib/pq"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -21,7 +23,7 @@ func main() {
 		// as well as ROB 3 medium messenger apps + make your version in the end...
 		//
 				1) main get and rob it to the fullest
-				2) services + handlers rob to the fullest 
+				2) services + handlers rob to the fullest
 				3) rob the riches from the repos in the end rob everything nahooi! + write git mistake + gopath
 				4) rob docker do talova
 				5) rob everything, lead to the docker
@@ -39,7 +41,7 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loading env variables: %s", err.Error())
 	}
-	db, err := repositories.NewPostgresDB(repositories.Config{
+	db, err := repositories.getDatabase(repositories.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),

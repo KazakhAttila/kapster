@@ -2,16 +2,17 @@ package repositories
 
 import (
 	"github.com/jmoiron/sqlx"
+	"github.com/kazakhattila/kapster"
 )
 
 type Resident interface {
-	Refresh()
-	Get()
+	Refresh(error)
+	Get() ([]resident.Resident, error)
 }
 
 type ResidentSlug interface {
-	Refresh()
-	Get()
+	Refresh(slug string) (error)
+	Get(slug string) ([] resident.ResidentSlug, error)
 }
 
 type Repository struct {
@@ -19,10 +20,10 @@ type Repository struct {
 	ResidentSlug
 }
 
-func newRepository(db *sqlx.DB) *Repository { 
+func NewRepository(db *sqlx.DB) *Repository {
 
-		return &Repository{ 
-				Resident: NewResidental(db),
-				ResidentSlug: NewResidentalSlug(db),
-		}
+	return &Repository{
+		Resident:     newResidentalPostgres(db),
+		ResidentSlug: NewResidentalSlug(db),
+	}
 }

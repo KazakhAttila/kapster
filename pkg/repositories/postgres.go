@@ -23,7 +23,7 @@ type Config struct {
 func getDatabase(cfg Config) (*sqlx.DB, error) {
 	db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
 		cfg.Host, cfg.Port, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode))
-		
+
 	if err != nil {
 		return nil, err
 	}
@@ -33,3 +33,9 @@ func getDatabase(cfg Config) (*sqlx.DB, error) {
 	}
 	return db, nil
 }
+
+// pohui plan: 
+// minimal'no raspisat' vse ostal'noe
+// owibki ispravim potom
+// was -> absolutely viable black work and EVERYTHING is solved here! 
+// 

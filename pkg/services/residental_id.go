@@ -1,7 +1,9 @@
 package services
 
 
-import() 
+import(
+	"github.com/kazakhattila/kapster/pkg/repositories"
+) 
 
 type ResidentSlugService struct{ 
 		Repository repositories.Repository

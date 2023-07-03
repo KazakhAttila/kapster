@@ -17,16 +17,6 @@ func NewHandler(services *service.Service) {
 	return &Handler{services: services}
 
 }
-/* 
-robbery of the century:
-1. handlers get everything
-2. solve my old problems!! 
-3. postgres solve suka 
-4. services get full suka 
-5. rob and just rob suka. just rob everything... 
-
-
-*/
 
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
