@@ -11,6 +11,8 @@ const (
 	residentSlugTable = "zhks"
 )
 
+
+
 type Config struct {
 	Username string
 	Host     string
@@ -34,8 +36,3 @@ func getDatabase(cfg Config) (*sqlx.DB, error) {
 	return db, nil
 }
 
-// pohui plan: 
-// minimal'no raspisat' vse ostal'noe
-// owibki ispravim potom
-// was -> absolutely viable black work and EVERYTHING is solved here! 
-// 

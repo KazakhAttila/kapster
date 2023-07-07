@@ -7,6 +7,7 @@ import (
 	"syscall"
 
 	"github.com/joho/godotenv"
+	 "github.com/kazakhattila/kapster"
 	"github.com/kazakhattila/kapster/pkg/handlers"
 	"github.com/kazakhattila/kapster/pkg/repositories"
 	"github.com/kazakhattila/kapster/pkg/services"
@@ -58,7 +59,7 @@ func main() {
 	service := services.NewService(repos)
 	handlers := handlers.NewHandler(service)
 
-	srv := new(kapster.Server)
+	srv := new(resident.Server)
 	go func() {
 		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 			logrus.Fatalf("error occured while running http server: %s", err.Error())

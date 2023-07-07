@@ -2,18 +2,20 @@ package services
 
 
 import( 
+	"github.com/kazakhattila/kapster"
+	"github.com/kazakhattila/kapster/pkg/repositories"
 
 )
 
 type Resident interface {
-		Get() Resident
-		Refresh() 
+		Get() ([] resident.Resident, error)
+		Refresh() (error) 
 }
 
 
 type ResidentSlug interface {
-	 	Get(slug string) ResidentSlug
-		Refresh(slug string) 
+	 	Get(slug string) ([] resident.ResidentSlug, error)
+		Refresh(slug string) (error)
 }
 
 
@@ -24,8 +26,8 @@ type Service struct {
 
 func newService(repos *repositories.Repository) *Service{ 
 			return &Service{ 	
-					Res: newResidentalService(repos),
-					ResSlug: newResidentalSlugService(repos),
+				Resident: newResidentService(repos.Resident),
+				ResidentSlug: newResidentSlugService(repos.ResidentSlug),
 			}
 
 }

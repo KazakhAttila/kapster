@@ -3,13 +3,14 @@ package services
 
 import(
 	"github.com/kazakhattila/kapster/pkg/repositories"
+	"github.com/kazakhattila/kapster"
 ) 
 
 type ResidentSlugService struct{ 
-		Repository repositories.Repository
+		Repository repositories.ResidentSlug
 }
 
-func newResidentSlugService(repo *repositories.Repository) *ResidentSlugService { 
+func newResidentSlugService(repo repositories.ResidentSlug) *ResidentSlugService { 
 				return &ResidentSlugService{ 
 						Repository: repo}
 }
@@ -17,13 +18,13 @@ func newResidentSlugService(repo *repositories.Repository) *ResidentSlugService 
 
 
 
-func ( r *ResidentSlugService) Get(slug string) ([] kapster.ResidentSlug, error){ 
-	return r.Repository.ResidentSlug.Get(slug)
+func ( r *ResidentSlugService) Get(slug string) ([] resident.ResidentSlug, error){ 
+	return r.Repository.Get(slug)
 
 
 
 }	
 
-func( r *ResidentSlugService) Refresh(slug string){ 		
-		return r.Repository.ResidentSlug.Refresh()
+func( r *ResidentSlugService) Refresh(slug string) (error){ 		
+		return r.Repository.Refresh(slug)
 }

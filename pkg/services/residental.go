@@ -9,16 +9,16 @@ type ResidentService struct {
 	Repository repositories.Resident
 }
 
-func newResidentService(repo *repositories.Repository) *ResidentService {
+func newResidentService(repo repositories.Resident) *ResidentService {
 	return &ResidentService{
 		Repository: repo}
 }
 
-func (r *ResidentService) Get() []resident.Resident {
-	return r.Repository.Resident.Get()
+func (r *ResidentService) Get() ([]resident.Resident, error) {
+	return r.Repository.Get()
 
 }
 
-func (r *ResidentService) Refresh() {
-	return r.Repository.Resident.Refresh()
+func (r *ResidentService) Refresh() (error) {
+	return r.Repository.Refresh()
 }

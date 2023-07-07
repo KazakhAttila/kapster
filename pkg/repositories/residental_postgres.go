@@ -7,8 +7,9 @@ import (
 	"net/http"
 	"strconv"
 	"time"
-	"github.com/kazakhattila/kapster"
+
 	"github.com/jmoiron/sqlx"
+	resident "github.com/kazakhattila/kapster"
 )
 
 type ResidentPostgres struct {
@@ -19,6 +20,8 @@ func newResidentalPostgres(db *sqlx.DB) *ResidentPostgres {
 	return &ResidentPostgres{db: db}
 
 }
+
+
 func (r *ResidentPostgres) Get() ([]resident.Resident, error) {
 	db := r.db
 	var returning []resident.Resident
@@ -31,9 +34,11 @@ func (r *ResidentPostgres) Get() ([]resident.Resident, error) {
 
 }
 
+// refresh function to send to the kapster.kz
+
 func (r *ResidentPostgres) Refresh() error {
 	tx, err := r.db.Begin()
-	if err!=nil{ 
+	if err != nil {
 		return err
 	}
 
@@ -53,23 +58,25 @@ func (r *ResidentPostgres) Refresh() error {
 			return err
 		}
 
-
-		// dev.Dat = []Dataa{}
-		// dev.Link = []Links{}
-		// dev.Meta = []Meta{}
 		var dev resident.Type1
 		err = json.Unmarshal(body, &dev)
-		// Надо сломать эту хуйню
 		var datt []resident.Resident = dev.Resident
 
 		if err != nil {
 			return (err)
 		}
-		
-		fmt.Println(dev)
+		// pryamo was ne mogu znat' mozhno li datt? ispol'zovat' + testing here real time suka.
+		//
+		residentColumns, _ := getColumns()
+		query := fmt.Sprintf("INSERT INTO zhks %s VALUES %s", residentColumns, getFormatted(datt))
+		_, err = tx.Exec(query)
+		if err != nil {
+			return err
+		}
 
-
-		return nil
+		tx.Commit()
 
 	}
+	return nil
+
 }

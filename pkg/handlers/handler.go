@@ -4,15 +4,17 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/swaggo/gin-swagger"
 	"github.com/swaggo/gin-swagger/swaggerFiles"
+	"github.com/kazakhattila/kapster/pkg/services"
+
 )
 
 type Handler struct {
-	services *service.Service
+	services *services.Service
 }
 
 // 100% info that I need... -> Handler syntax shit
 
-func NewHandler(services *service.Service) {
+func NewHandler(services *services.Service) (*Handler){
 
 	return &Handler{services: services}
 
@@ -24,7 +26,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	api := router.Group("/api")
 	{
 		api.GET("/getAll", h.retrieveInfo)
-		api.GET("/refreshAll", h.refreshAll)
+		api.GET("/refreshAll", h.refreshList)
 		api.GET("/:slug", h.retrieveBySlug)
 		api.GET("/:slug/refresh", h.refreshSlug)
 		api.POST("/:id", h.returnStatus)
