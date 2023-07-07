@@ -7,7 +7,7 @@ import (
 	"syscall"
 
 	"github.com/joho/godotenv"
-	 "github.com/kazakhattila/kapster"
+	resident "github.com/kazakhattila/kapster"
 	"github.com/kazakhattila/kapster/pkg/handlers"
 	"github.com/kazakhattila/kapster/pkg/repositories"
 	"github.com/kazakhattila/kapster/pkg/services"
@@ -18,21 +18,6 @@ import (
 
 func main() {
 
-	/*
-		// dal'we -> coffee shop rob it.
-		// as well as REST API youtube video -> ROB + hardcore
-		// as well as ROB 3 medium messenger apps + make your version in the end...
-		//
-				1) main get and rob it to the fullest
-				2) services + handlers rob to the fullest
-				3) rob the riches from the repos in the end rob everything nahooi! + write git mistake + gopath
-				4) rob docker do talova
-				5) rob everything, lead to the docker
-				6) then to solve problems: refresh, my database specifics, my getters, Channels and my problems...
-				7) then proceed to rob leetcode today -> if can't solve or too lazy to write and decide -> rob others...
-				8)
-				9)
-	*/
 	logrus.SetFormatter(new(logrus.JSONFormatter))
 
 	if err := initConfig(); err != nil {

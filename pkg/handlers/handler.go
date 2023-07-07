@@ -12,7 +12,6 @@ type Handler struct {
 	services *services.Service
 }
 
-// 100% info that I need... -> Handler syntax shit
 
 func NewHandler(services *services.Service) (*Handler){
 
@@ -29,7 +28,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		api.GET("/refreshAll", h.refreshList)
 		api.GET("/:slug", h.retrieveBySlug)
 		api.GET("/:slug/refresh", h.refreshSlug)
-		api.POST("/:id", h.returnStatus)
+	//	api.POST("/:id", h.returnStatus)
 	}
 	return router
 }

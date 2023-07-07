@@ -32,7 +32,7 @@ func getColumns() (string, string) {
 
 }
 
-func getFormatted(Data []interface{}) string {
+func getFormatted(Data []  interface {}) string {
 
 	var result string
 	for i := 0; i < len(Data); i++ {

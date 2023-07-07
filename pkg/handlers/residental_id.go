@@ -1,15 +1,32 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 func (h *Handler) retrieveBySlug(c *gin.Context) {
-		list, err := h.services.ResidentSlug.Get()
-		if err!=nil{
-			
-		}
-		c.JSON(list)
+	slug := c.Param("slug")
+
+	if slug == `` {
+		newErrorResponse(c, http.StatusInternalServerError, "Your slug is empty!")
+	}
+	list, err := h.services.ResidentSlug.Get(slug)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+	c.JSON(http.StatusOK, list)
 }
 
 func (h *Handler) refreshSlug(c *gin.Context) {
-		list, err := 
+	slug := c.Param("slug")
+	if slug == `` {
+		newErrorResponse(c, http.StatusInternalServerError, "Your slug is empty!")
+	}
+	err := h.services.ResidentSlug.Refresh(slug)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+	}
+	c.JSON(http.StatusOK, nil)
 }

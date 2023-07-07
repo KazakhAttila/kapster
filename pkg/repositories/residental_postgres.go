@@ -65,7 +65,6 @@ func (r *ResidentPostgres) Refresh() error {
 		if err != nil {
 			return (err)
 		}
-		// pryamo was ne mogu znat' mozhno li datt? ispol'zovat' + testing here real time suka.
 		//
 		residentColumns, _ := getColumns()
 		query := fmt.Sprintf("INSERT INTO zhks %s VALUES %s", residentColumns, getFormatted(datt))

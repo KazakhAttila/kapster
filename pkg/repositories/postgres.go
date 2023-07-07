@@ -11,8 +11,6 @@ const (
 	residentSlugTable = "zhks"
 )
 
-
-
 type Config struct {
 	Username string
 	Host     string
@@ -35,4 +33,3 @@ func getDatabase(cfg Config) (*sqlx.DB, error) {
 	}
 	return db, nil
 }
-
