@@ -24,7 +24,7 @@ type Service struct {
 		ResidentSlug
 }
 
-func newService(repos *repositories.Repository) *Service{ 
+func NewService(repos *repositories.Repository) *Service{ 
 			return &Service{ 	
 				Resident: newResidentService(repos.Resident),
 				ResidentSlug: newResidentSlugService(repos.ResidentSlug),

@@ -12,6 +12,7 @@ func (h *Handler) refreshList(c *gin.Context) {
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
+	c.JSON(http.StatusOK, nil) 
 
 }
 

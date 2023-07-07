@@ -32,7 +32,7 @@ func getColumns() (string, string) {
 
 }
 
-func getFormatted(Data []  interface {}) string {
+func getFormatted(Data[] resident.Resident) string {
 
 	var result string
 	for i := 0; i < len(Data); i++ {
@@ -58,6 +58,29 @@ func getFormatted(Data []  interface {}) string {
 	}
 	return result
 }
+func getFormatted2(Data resident.ResidentSlug) string {
+
+	var result string
+
+		result = result + `(`
+		v := reflect.ValueOf(Data)
+		for j := 0; j < v.NumField(); j++ {
+			vv := v.Field(j)
+			if j != v.NumField()-1 {
+
+				result = result + vv.String() + `,`
+
+			} else {
+				result = result + vv.String()
+			}
+		}
+	
+		result = result + `)`
+		
+		return result
+
+}
+
 
 
 type Resident interface {

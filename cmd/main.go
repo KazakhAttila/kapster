@@ -27,7 +27,7 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loading env variables: %s", err.Error())
 	}
-	db, err := repositories.getDatabase(repositories.Config{
+	db, err := repositories.GetDatabase(repositories.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),
@@ -59,7 +59,7 @@ func main() {
 
 	logrus.Print(" Shutting down an app ")
 
-	if err := srv.Shutdown(context.Background()); err != nil {
+	if err := srv.ShutDown(context.Background()); err != nil {
 		logrus.Errorf("error occured on server shutting down: %s", err.Error())
 	}
 

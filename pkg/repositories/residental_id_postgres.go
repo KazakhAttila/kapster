@@ -66,7 +66,7 @@ func (r *ResidentSlugPostgres) Refresh(slug string) error {
 	for i := 0; i < len(slugNew); i++ {
 		if addlist[i] == 1 {
 			vals := slugNew[i]
-			valsstring := getFormatted(vals)
+			valsstring := getFormatted2(vals)
 			query := fmt.Sprintf(`INSERT INTO %s VALUES %s`, columns, valsstring)
 			_, err = r.db.Exec(query)
 			if err != nil {
@@ -77,4 +77,5 @@ func (r *ResidentSlugPostgres) Refresh(slug string) error {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+	return nil
 }

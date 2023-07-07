@@ -65,7 +65,7 @@ func (r *ResidentPostgres) Refresh() error {
 		if err != nil {
 			return (err)
 		}
-		//
+		
 		residentColumns, _ := getColumns()
 		query := fmt.Sprintf("INSERT INTO zhks %s VALUES %s", residentColumns, getFormatted(datt))
 		_, err = tx.Exec(query)
