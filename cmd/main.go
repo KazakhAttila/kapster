@@ -27,7 +27,8 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		logrus.Fatalf("error loading env variables: %s", err.Error())
 	}
-	db, err := repositories.GetDatabase(repositories.Config{
+	logrus.Printf(`%s`, viper.GetString("db.sslmode"))
+	db, err, _ := repositories.GetDatabase(repositories.Config{
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		Username: viper.GetString("db.username"),
@@ -37,7 +38,6 @@ func main() {
 	})
 	if err != nil {
 		logrus.Fatalf("error loading database: %s", err.Error())
-
 	}
 
 	repos := repositories.NewRepository(db)

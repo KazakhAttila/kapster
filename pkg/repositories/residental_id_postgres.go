@@ -22,7 +22,7 @@ func NewResidentalSlug(db *sqlx.DB) *ResidentSlugPostgres {
 func (r *ResidentSlugPostgres) Get(slug string) ([]resident.ResidentSlug, error) {
 	var result []resident.ResidentSlug
 	query := fmt.Sprintf("SELECT * FROM zhks WHERE slug = %s", slug)
-	if err := r.db.Get(&result, query); err != nil {
+	if err := r.db.Select(&result, query); err != nil {
 		return nil, err
 	}
 	return result, nil
@@ -35,6 +35,7 @@ func (r *ResidentSlugPostgres) Refresh(slug string) error {
 
 	err := r.db.Get(&slugOld, query)
 	if err != nil {
+		return err
 
 	}
 
@@ -42,9 +43,12 @@ func (r *ResidentSlugPostgres) Refresh(slug string) error {
 	endpoint := fmt.Sprintf("https://kapster.kz/api/products/%s", slug)
 	resp, err := Client.Get(endpoint)
 	if err != nil {
-
+		return err
 	}
 	body, err := ioutil.ReadAll(resp.Body)
+	if err!=nil{
+		return err
+	}
 	var slugNew []resident.ResidentSlug
 	var addlist [10000]int
 
@@ -53,7 +57,7 @@ func (r *ResidentSlugPostgres) Refresh(slug string) error {
 	}
 	err = json.Unmarshal(body, &slugNew)
 	if err != nil {
-
+			return err
 	}
 	for i := 0; i < len(slugOld); i++ {
 		for j := 0; j < len(slugNew); j++ {

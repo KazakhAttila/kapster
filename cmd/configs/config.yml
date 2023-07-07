@@ -5,4 +5,5 @@ db:
     host: "localhost"
     port: "5432"
     dbname: "kapster"
+    password: "123"
     sslmode: "disable"

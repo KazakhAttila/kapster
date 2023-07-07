@@ -20,16 +20,16 @@ type Config struct {
 	SSLMode  string
 }
 
-func GetDatabase(cfg Config) (*sqlx.DB, error) {
+func GetDatabase(cfg Config) (*sqlx.DB, error, string) {
 	db, err := sqlx.Open("postgres", fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=%s",
 		cfg.Host, cfg.Port, cfg.Username, cfg.DBName, cfg.Password, cfg.SSLMode))
 
 	if err != nil {
-		return nil, err
+		return nil, err, cfg.SSLMode
 	}
 	err = db.Ping()
 	if err != nil {
-		return nil, err
+		return nil, err, cfg.SSLMode
 	}
-	return db, nil
+	return db, nil, cfg.SSLMode
 }

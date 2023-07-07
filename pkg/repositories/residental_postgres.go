@@ -21,12 +21,11 @@ func newResidentalPostgres(db *sqlx.DB) *ResidentPostgres {
 
 }
 
-
 func (r *ResidentPostgres) Get() ([]resident.Resident, error) {
 	db := r.db
 	var returning []resident.Resident
 	query := "SELECT * FROM dataas"
-	err := db.Get(&returning, query)
+	err := db.Select(&returning, query)
 	if err != nil {
 		return nil, err
 	}
@@ -65,7 +64,7 @@ func (r *ResidentPostgres) Refresh() error {
 		if err != nil {
 			return (err)
 		}
-		
+
 		residentColumns, _ := getColumns()
 		query := fmt.Sprintf("INSERT INTO zhks %s VALUES %s", residentColumns, getFormatted(datt))
 		_, err = tx.Exec(query)
