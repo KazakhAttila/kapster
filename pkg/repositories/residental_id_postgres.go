@@ -71,7 +71,7 @@ func (r *ResidentSlugPostgres) Refresh(slug string) error {
 		if addlist[i] == 1 {
 			vals := slugNew[i]
 			valsstring := getFormatted2(vals)
-			query := fmt.Sprintf(`INSERT INTO %s VALUES %s`, columns, valsstring)
+			query := fmt.Sprintf(`INSERT INTO %s %s VALUES %s`, residentSlugTable, columns, valsstring)
 			_, err = r.db.Exec(query)
 			if err != nil {
 				fmt.Println(err.Error())

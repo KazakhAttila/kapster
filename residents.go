@@ -1,8 +1,7 @@
 package resident
 
-type Type1 struct{ 
-
-			Resident []Resident
+type Type1 struct {
+	Resident []Resident `json:"data"`
 }
 
 type Resident struct {
