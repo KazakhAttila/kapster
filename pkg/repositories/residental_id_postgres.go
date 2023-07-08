@@ -21,7 +21,7 @@ func NewResidentalSlug(db *sqlx.DB) *ResidentSlugPostgres {
 }
 func (r *ResidentSlugPostgres) Get(slug string) ([]resident.ResidentSlug, error) {
 	var result []resident.ResidentSlug
-	query := fmt.Sprintf("SELECT * FROM zhks WHERE slug = %s", slug)
+	query := fmt.Sprintf("SELECT * FROM zhks WHERE slug = '%s'", slug)
 	if err := r.db.Select(&result, query); err != nil {
 		return nil, err
 	}
@@ -30,7 +30,7 @@ func (r *ResidentSlugPostgres) Get(slug string) ([]resident.ResidentSlug, error)
 
 func (r *ResidentSlugPostgres) Refresh(slug string) error {
 
-	query := fmt.Sprintf(`SELECT FROM %s WHERE slug = %s`, residentSlugTable, slug)
+	query := fmt.Sprintf(`SELECT FROM %s WHERE slug = '%s'`, residentSlugTable, slug)
 	var slugOld []resident.ResidentSlug
 
 	err := r.db.Get(&slugOld, query)
@@ -46,7 +46,7 @@ func (r *ResidentSlugPostgres) Refresh(slug string) error {
 		return err
 	}
 	body, err := ioutil.ReadAll(resp.Body)
-	if err!=nil{
+	if err != nil {
 		return err
 	}
 	var slugNew []resident.ResidentSlug
@@ -57,7 +57,7 @@ func (r *ResidentSlugPostgres) Refresh(slug string) error {
 	}
 	err = json.Unmarshal(body, &slugNew)
 	if err != nil {
-			return err
+		return err
 	}
 	for i := 0; i < len(slugOld); i++ {
 		for j := 0; j < len(slugNew); j++ {

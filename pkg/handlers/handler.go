@@ -24,8 +24,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	{
 		api.GET("/getAll", h.retrieveInfo)
 		api.GET("/refreshAll", h.refreshList)
-		api.GET("/slug/:slug", h.retrieveBySlug)
-		api.GET("/refresh/:slug", h.refreshSlug)
+		api.GET("/slug", h.retrieveBySlug)
+		api.GET("/refreshSLug", h.refreshSlug)
 		//	api.POST("/:id", h.returnStatus)
 	}
 	return router

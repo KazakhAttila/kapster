@@ -6,13 +6,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (h *Handler) retrieveBySlug(c *gin.Context) {
-	slug := c.Param("slug")
+type slugg struct {
+	Slug string `json:"slug"`
+}
 
-	if slug == `` {
+func (h *Handler) retrieveBySlug(c *gin.Context) {
+	var slug slugg
+	err := c.BindJSON(&slug)
+
+	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, "Your slug is empty!")
 	}
-	list, err := h.services.ResidentSlug.Get(slug)
+	list, err := h.services.ResidentSlug.Get(slug.Slug)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
@@ -20,11 +25,13 @@ func (h *Handler) retrieveBySlug(c *gin.Context) {
 }
 
 func (h *Handler) refreshSlug(c *gin.Context) {
-	slug := c.Param("slug")
-	if slug == `` {
+	var slug slugg
+	err := c.BindJSON(&slug)
+
+	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, "Your slug is empty!")
 	}
-	err := h.services.ResidentSlug.Refresh(slug)
+	err = h.services.ResidentSlug.Refresh(slug.Slug)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 	}
